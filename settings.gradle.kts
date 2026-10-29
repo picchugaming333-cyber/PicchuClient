@@ -1,14 +1,29 @@
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.9.0"
+@file:Suppress("UnstableApiUsage")
+
+pluginManagement {
+    repositories {
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
+        mavenLocal()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenLocal()
+        mavenCentral()
+        maven("https://repo.opencollab.dev/maven-snapshots")
+        maven("https://repo.opencollab.dev/maven-releases")
+    }
 }
 
-rootProject.name = "GatoRelay"
-
-include(
-    ":Protocol:bedrock-codec",
-    ":Protocol:bedrock-connection",
-    ":Protocol:common",
-    ":Network:codec-query",
-    ":Network:codec-rcon",
-    ":Network:transport-raknet",
-)
+rootProject.name = "PicchuClient"
+include(":app")

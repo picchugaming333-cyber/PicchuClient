@@ -1,0 +1,21 @@
+PicchuClient — ready to build
+
+Modules only:
+  KillAura, TpAura, Fly, MotionFly, Fullbright
+
+App name: PicchuClient
+applicationId: com.picchu.client
+Recommended MC: 1.26.50
+
+Build (JDK 17 + Android SDK API 35):
+
+  cd relay
+  ./gradlew jar
+  cd ..
+  cp relay/build/libs/GatoRelay.jar app/libs/
+  ./gradlew :app:assembleRelease
+
+APK output:
+  app/build/outputs/apk/release/
+
+Install the APK, start the relay in the app, connect Minecraft to this device IP:19132.
