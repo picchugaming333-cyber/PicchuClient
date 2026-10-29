@@ -1,0 +1,43 @@
+name: Build PicchuClient APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Build relay jar
+        run: |
+          cd relay
+          chmod +x gradlew
+          ./gradlew jar --no-daemon
+
+      - name: Copy relay into app
+        run: |
+          mkdir -p app/libs
+          cp relay/build/libs/*.jar app/libs/GatoRelay.jar
+
+      - name: Build release APK
+        run: |
+          chmod +x gradlew
+          ./gradlew :app:assembleRelease --no-daemon
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: PicchuClient-apk
+          path: app/build/outputs/apk/release/*.apk
